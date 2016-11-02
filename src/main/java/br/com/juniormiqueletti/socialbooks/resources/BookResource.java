@@ -33,4 +33,10 @@ public class BookResource {
     public void delete(@PathVariable("id") Long id){
         bookRepository.delete(id);
     }
+
+    @RequestMapping(value = "{id}", method = RequestMethod.PUT)
+    public void update(@RequestBody Book book, @PathVariable("id") Long id){
+        book.setId(id);
+        bookRepository.save(book);
+    }
 }
