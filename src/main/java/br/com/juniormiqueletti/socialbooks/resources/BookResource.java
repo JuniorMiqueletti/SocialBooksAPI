@@ -3,10 +3,7 @@ package br.com.juniormiqueletti.socialbooks.resources;
 import br.com.juniormiqueletti.socialbooks.domain.Book;
 import br.com.juniormiqueletti.socialbooks.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,5 +22,10 @@ public class BookResource {
     @RequestMapping(method = RequestMethod.POST)
     public void save(@RequestBody Book book){
         bookRepository.save(book);
+    }
+
+    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    public Book find(@PathVariable("id") Long id){
+        return bookRepository.findOne(id);
     }
 }
