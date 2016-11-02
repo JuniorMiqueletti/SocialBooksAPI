@@ -8,9 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by junio on 30/10/2016.
- */
 @RestController
 public class BookResource {
 

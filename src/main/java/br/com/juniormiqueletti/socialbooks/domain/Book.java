@@ -3,9 +3,6 @@ package br.com.juniormiqueletti.socialbooks.domain;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by junio on 30/10/2016.
- */
 public class Book {
     private Long Id;
     private String name;
