@@ -37,6 +37,8 @@ public class Book {
     @Transient
     private List<Comment> comments;
 
+    public Book(){}
+
     public Book(String name) {
         this.name = name;
     }
