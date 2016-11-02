@@ -3,12 +3,20 @@ package br.com.juniormiqueletti.socialbooks.domain;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Transient;
 import java.util.Date;
 import java.util.List;
 
+@Entity
 public class Book {
 
     @JsonInclude(Include.NON_NULL)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
     private String name;
@@ -26,6 +34,7 @@ public class Book {
     private String author;
 
     @JsonInclude(Include.NON_NULL)
+    @Transient
     private List<Comment> comments;
 
     public Book(String name) {
