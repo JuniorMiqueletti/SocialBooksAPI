@@ -1,11 +1,9 @@
-package br.com.juniormiqueletti.socialbooks.resources;
+package br.com.juniormiqueletti.socialbooks.controllers;
 
 import br.com.juniormiqueletti.socialbooks.domain.Book;
-import br.com.juniormiqueletti.socialbooks.repository.BookRepository;
 import br.com.juniormiqueletti.socialbooks.services.BookService;
 import br.com.juniormiqueletti.socialbooks.services.exceptions.BookNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/books")
-public class BookResource {
+public class BookController {
 
     @Autowired
     private BookService bookService;
