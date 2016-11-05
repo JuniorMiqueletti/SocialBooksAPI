@@ -1,12 +1,15 @@
 package br.com.juniormiqueletti.socialbooks.services;
 
 import br.com.juniormiqueletti.socialbooks.domain.Book;
+import br.com.juniormiqueletti.socialbooks.domain.Comment;
 import br.com.juniormiqueletti.socialbooks.repository.BookRepository;
+import br.com.juniormiqueletti.socialbooks.repository.CommentRepository;
 import br.com.juniormiqueletti.socialbooks.services.exceptions.BookNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -14,6 +17,9 @@ public class BookService {
 
     @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     public List<Book> list(){
         return bookRepository.findAll();
@@ -49,5 +55,14 @@ public class BookService {
 
     private void isValidBook(Book book){
         this.find(book.getId());
+    }
+
+    public Comment saveComment(Long bookId, Comment comment){
+        Book book = find(bookId);
+
+        comment.setBook(book);
+        comment.setDate(new Date());
+
+        return commentRepository.save(comment);
     }
 }

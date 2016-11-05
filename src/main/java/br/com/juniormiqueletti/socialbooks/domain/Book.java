@@ -3,11 +3,7 @@ package br.com.juniormiqueletti.socialbooks.domain;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
@@ -34,7 +30,7 @@ public class Book {
     private String author;
 
     @JsonInclude(Include.NON_NULL)
-    @Transient
+    @OneToMany(mappedBy = "book")
     private List<Comment> comments;
 
     public Book(){}

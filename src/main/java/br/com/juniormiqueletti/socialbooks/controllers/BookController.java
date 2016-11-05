@@ -1,6 +1,7 @@
 package br.com.juniormiqueletti.socialbooks.controllers;
 
 import br.com.juniormiqueletti.socialbooks.domain.Book;
+import br.com.juniormiqueletti.socialbooks.domain.Comment;
 import br.com.juniormiqueletti.socialbooks.services.BookService;
 import br.com.juniormiqueletti.socialbooks.services.exceptions.BookNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,5 +70,18 @@ public class BookController {
         return ResponseEntity
                 .noContent()
                     .build();
+    }
+
+    @RequestMapping(value ="/{id}/comment", method = RequestMethod.POST )
+    public ResponseEntity addComment(@PathVariable("id") Long bookId, @RequestBody Comment comment){
+        bookService.saveComment(bookId, comment);
+
+        URI uri = ServletUriComponentsBuilder
+                    .fromCurrentRequestUri()
+                        .build().toUri();
+
+        return ResponseEntity
+                .created(uri)
+                .build();
     }
 }
