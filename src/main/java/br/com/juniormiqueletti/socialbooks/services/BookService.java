@@ -65,4 +65,10 @@ public class BookService {
 
         return commentRepository.save(comment);
     }
+
+    public List<Comment> listComments(Long bookId) {
+        Book book = find(bookId);
+
+        return book.getComments();
+    }
 }

@@ -84,4 +84,13 @@ public class BookController {
                 .created(uri)
                 .build();
     }
+
+    @RequestMapping(value = "/{id}/comment", method = RequestMethod.GET)
+    public ResponseEntity<List<Comment>> listComments(@PathVariable("id") Long bookId){
+        List<Comment> comments = bookService.listComments(bookId);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(comments);
+    }
 }
