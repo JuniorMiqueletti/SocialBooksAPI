@@ -14,7 +14,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/books")
+@RequestMapping(value = "/book")
 public class BookController {
 
     @Autowired

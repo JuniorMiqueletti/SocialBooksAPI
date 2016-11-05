@@ -26,8 +26,10 @@ public class Book {
     @JsonInclude(Include.NON_NULL)
     private String summary;
 
+    @ManyToOne
+    @JoinColumn(name = "author_id")
     @JsonInclude(Include.NON_NULL)
-    private String author;
+    private Author author;
 
     @JsonInclude(Include.NON_NULL)
     @OneToMany(mappedBy = "book")
@@ -79,11 +81,11 @@ public class Book {
         this.summary = summary;
     }
 
-    public String getAuthor() {
+    public Author getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(Author author) {
         this.author = author;
     }
 
