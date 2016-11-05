@@ -43,15 +43,7 @@ public class BookController {
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public ResponseEntity find(@PathVariable("id") Long id){
-        Book book = null;
-
-        try {
-            book = bookService.find(id);
-        }catch (BookNotFoundException e){
-            return ResponseEntity
-                    .notFound()
-                    .build();
-        }
+        Book book = bookService.find(id);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -61,13 +53,8 @@ public class BookController {
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     public ResponseEntity delete(@PathVariable("id") Long id){
 
-        try{
-            bookService.delete(id);
-        }catch (BookNotFoundException e){
-            return ResponseEntity
-                    .notFound()
-                        .build();
-        }
+        bookService.delete(id);
+
         return ResponseEntity
                 .noContent()
                     .build();
@@ -76,13 +63,8 @@ public class BookController {
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
     public ResponseEntity update(@RequestBody Book book, @PathVariable("id") Long id){
         book.setId(id);
-        try{
-            bookService.save(book);
-        }catch (BookNotFoundException e){
-            return ResponseEntity
-                    .notFound()
-                    .build();
-        }
+
+        bookService.save(book);
 
         return ResponseEntity
                 .noContent()
