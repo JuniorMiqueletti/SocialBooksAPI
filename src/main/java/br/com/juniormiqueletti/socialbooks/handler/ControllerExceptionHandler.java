@@ -5,6 +5,7 @@ import br.com.juniormiqueletti.socialbooks.services.exceptions.AuthorFoundExcept
 import br.com.juniormiqueletti.socialbooks.services.exceptions.AuthorNotFoundException;
 import br.com.juniormiqueletti.socialbooks.services.exceptions.BookNotFoundException;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ControllerExceptionHandler {
 
     @ExceptionHandler(BookNotFoundException.class)
-    public ResponseEntity<ErrorDetail> handleBookNotFoundException(BookNotFoundException exception,
+    public ResponseEntity<ErrorDetail> handlerBookNotFoundException(BookNotFoundException exception,
                                                             HttpServletRequest request){
 
         ErrorDetail errorDetail = new ErrorDetail();
@@ -29,7 +30,7 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(AuthorNotFoundException.class)
-    public ResponseEntity<ErrorDetail> handleAuthorNotFoundException(AuthorNotFoundException exception,
+    public ResponseEntity<ErrorDetail> handlerAuthorNotFoundException(AuthorNotFoundException exception,
                                                                      HttpServletRequest request){
 
         ErrorDetail errorDetail = new ErrorDetail();
@@ -44,7 +45,7 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(AuthorFoundException.class)
-    public ResponseEntity<ErrorDetail> handleAuthorFoundException(AuthorFoundException exception,
+    public ResponseEntity<ErrorDetail> handlerAuthorFoundException(AuthorFoundException exception,
                                                                    HttpServletRequest request){
 
         ErrorDetail errorDetail = new ErrorDetail();
@@ -55,6 +56,21 @@ public class ControllerExceptionHandler {
 
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
+                .body(errorDetail);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ErrorDetail> handlerDataIntegrityViolationException(DataIntegrityViolationException exception,
+                                                                     HttpServletRequest request){
+
+        ErrorDetail errorDetail = new ErrorDetail();
+        errorDetail.setStatus(400l);
+        errorDetail.setTitle("Invalid Request!");
+        errorDetail.setDeveloperMessage("http://error.socialbooks.com/400");
+        errorDetail.setTimeStamp(System.currentTimeMillis());
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
                 .body(errorDetail);
     }
 }
