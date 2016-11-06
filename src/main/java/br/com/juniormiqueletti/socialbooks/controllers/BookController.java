@@ -7,6 +7,7 @@ import br.com.juniormiqueletti.socialbooks.services.exceptions.BookNotFoundExcep
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -28,7 +29,7 @@ public class BookController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity save(@RequestBody Book book){
+    public ResponseEntity save(@Validated @RequestBody Book book){
         bookService.save(book);
 
         URI uri = ServletUriComponentsBuilder
@@ -62,10 +63,10 @@ public class BookController {
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
-    public ResponseEntity update(@RequestBody Book book, @PathVariable("id") Long id){
+    public ResponseEntity update(@Validated @RequestBody Book book, @PathVariable("id") Long id){
         book.setId(id);
 
-        bookService.save(book);
+        bookService.update(book);
 
         return ResponseEntity
                 .noContent()
@@ -73,7 +74,7 @@ public class BookController {
     }
 
     @RequestMapping(value ="/{id}/comment", method = RequestMethod.POST )
-    public ResponseEntity addComment(@PathVariable("id") Long bookId, @RequestBody Comment comment){
+    public ResponseEntity addComment(@PathVariable("id") Long bookId,@Validated @RequestBody Comment comment){
         bookService.saveComment(bookId, comment);
 
         URI uri = ServletUriComponentsBuilder

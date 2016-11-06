@@ -5,6 +5,7 @@ import br.com.juniormiqueletti.socialbooks.services.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -27,7 +28,7 @@ public class AuthorController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity save(@RequestBody Author author){
+    public ResponseEntity save(@Validated @RequestBody Author author){
         author = authorService.save(author);
 
         URI uri = ServletUriComponentsBuilder
