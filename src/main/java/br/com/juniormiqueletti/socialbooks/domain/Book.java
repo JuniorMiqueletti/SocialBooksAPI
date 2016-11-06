@@ -3,8 +3,11 @@ package br.com.juniormiqueletti.socialbooks.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
@@ -16,16 +19,21 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
+    @NotEmpty(message = "The field name cannot be empty!")
     private String name;
 
     @JsonInclude(Include.NON_NULL)
     @JsonFormat(pattern = "dd/MM/yyyy")
+    @NotNull(message = "The field publication cannot be empty!")
     private Date publication;
 
     @JsonInclude(Include.NON_NULL)
+    @NotEmpty(message = "The field publishingCompany cannot be empty!")
     private String publishingCompany;
 
     @JsonInclude(Include.NON_NULL)
+    @NotEmpty(message = "The field summary cannot be empty!")
+    @Size(message = "The summary cannot greater than 1500 characters", max = 1500)
     private String summary;
 
     @ManyToOne

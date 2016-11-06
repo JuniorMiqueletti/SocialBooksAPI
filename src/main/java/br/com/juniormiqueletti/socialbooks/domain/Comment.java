@@ -3,8 +3,11 @@ package br.com.juniormiqueletti.socialbooks.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
@@ -14,7 +17,9 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @NotEmpty(message = "The field comment cannot be empty!")
+    @Size(message = "The comment cannot greater than 1500 characters", max = 1500)
+    @JsonProperty("comment")
     private String text;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)

@@ -3,6 +3,7 @@ package br.com.juniormiqueletti.socialbooks.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,7 +16,7 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @NotEmpty(message = "The field name cannot be empty!")
     private String name;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
