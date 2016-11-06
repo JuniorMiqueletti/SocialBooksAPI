@@ -1,5 +1,6 @@
 package br.com.juniormiqueletti.socialbooks.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -18,6 +19,7 @@ public class Book {
     private String name;
 
     @JsonInclude(Include.NON_NULL)
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date publication;
 
     @JsonInclude(Include.NON_NULL)
@@ -31,7 +33,7 @@ public class Book {
     @JsonInclude(Include.NON_NULL)
     private Author author;
 
-    @JsonInclude(Include.NON_NULL)
+    @JsonInclude(Include.NON_EMPTY)
     @OneToMany(mappedBy = "book")
     private List<Comment> comments;
 
