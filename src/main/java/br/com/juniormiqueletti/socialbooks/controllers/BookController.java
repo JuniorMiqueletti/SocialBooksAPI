@@ -5,6 +5,7 @@ import br.com.juniormiqueletti.socialbooks.domain.Comment;
 import br.com.juniormiqueletti.socialbooks.services.BookService;
 import br.com.juniormiqueletti.socialbooks.services.exceptions.BookNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping(value = "/book")
@@ -47,8 +49,11 @@ public class BookController {
     public ResponseEntity find(@PathVariable("id") Long id){
         Book book = bookService.find(id);
 
+        CacheControl cacheControl = CacheControl.maxAge(20, TimeUnit.SECONDS);
+
         return ResponseEntity
                 .status(HttpStatus.OK)
+                .cacheControl(cacheControl)
                     .body(book);
     }
 
