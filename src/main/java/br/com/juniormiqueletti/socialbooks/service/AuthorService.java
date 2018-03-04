@@ -1,4 +1,4 @@
-package br.com.juniormiqueletti.socialbooks.services;
+package br.com.juniormiqueletti.socialbooks.service;
 
 import br.com.juniormiqueletti.socialbooks.domain.Author;
 import br.com.juniormiqueletti.socialbooks.repository.AuthorRepository;

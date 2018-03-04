@@ -1,7 +1,8 @@
-package br.com.juniormiqueletti.socialbooks.controllers;
+package br.com.juniormiqueletti.socialbooks.controller;
 
 import br.com.juniormiqueletti.socialbooks.domain.Author;
-import br.com.juniormiqueletti.socialbooks.services.AuthorService;
+import br.com.juniormiqueletti.socialbooks.service.AuthorService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

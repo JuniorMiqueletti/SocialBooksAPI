@@ -1,8 +1,8 @@
-package br.com.juniormiqueletti.socialbooks.controllers;
+package br.com.juniormiqueletti.socialbooks.controller;
 
 import br.com.juniormiqueletti.socialbooks.domain.Book;
 import br.com.juniormiqueletti.socialbooks.domain.Comment;
-import br.com.juniormiqueletti.socialbooks.services.BookService;
+import br.com.juniormiqueletti.socialbooks.service.BookService;
 import br.com.juniormiqueletti.socialbooks.services.exceptions.BookNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
