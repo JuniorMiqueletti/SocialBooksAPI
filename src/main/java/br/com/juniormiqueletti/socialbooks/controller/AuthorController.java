@@ -29,7 +29,7 @@ public class AuthorController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity save(@Validated @RequestBody Author author){
+    public ResponseEntity<Void> save(@Validated @RequestBody Author author){
         author = authorService.save(author);
 
         URI uri = ServletUriComponentsBuilder
@@ -44,7 +44,7 @@ public class AuthorController {
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    public ResponseEntity find(@PathVariable("id")Long id){
+    public ResponseEntity<Author> find(@PathVariable("id")Long id){
 
         Author author = authorService.find(id);
 
