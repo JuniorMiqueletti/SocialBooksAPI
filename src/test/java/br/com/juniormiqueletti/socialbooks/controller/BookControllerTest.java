@@ -28,6 +28,7 @@ public class BookControllerTest {
 	private static final int STATUS_NOT_FOUND = 404;
 	private static final int STATUS_CODE_OK = 200;
 	private static final int STATUS_CREATED = 201;
+	private static final int STATUS_NO_CONTENT = 204;
 	private static final String CONTENT_TYPE_HEADER = "Content-Type";
 	private static final String LOCATION_HEADER = "location";
 	private static final String APPLICATION_JSON = "application/json";
@@ -130,6 +131,49 @@ public class BookControllerTest {
 		
 		assertEquals(book.getName(), bookResponse.getName());
 		assertEquals(book.getPublishingCompany(), bookResponse.getPublishingCompany());
+	}
+	
+	@Test
+	public void deleteNotFoundExceptionHandlerTest() {
+		given()
+			.port(port)
+			.auth()
+				.basic(BASIC_AUTH_USER, BASIC_AUTH_PASS)
+			.delete(BOOK_URL + "/333")
+		.then()
+			.statusCode(STATUS_NOT_FOUND)
+			.body("title", equalTo("The book has not been found!"))
+			.body("developerMessage", equalTo("http://error.socialbooks.com/404"));
+	}
+	
+	@Test
+	public void deleteTest() throws ParseException {
+		
+		Book book = createBookSample();
+		
+		Response response = 
+				given()
+					.port(port)
+					.auth()
+						.basic(BASIC_AUTH_USER, BASIC_AUTH_PASS)
+					.body(book)
+						.header(CONTENT_TYPE_HEADER, APPLICATION_JSON)
+				.post(BOOK_URL)
+					.andReturn();
+		
+		int statusCode = response.getStatusCode();
+		String headerLocation = response.getHeader(LOCATION_HEADER);
+		
+		assertEquals(statusCode, STATUS_CREATED);
+		assertTrue(headerLocation.matches(LOCATION_PATTERN));
+		
+		given()
+			.port(port)
+			.auth()
+				.basic(BASIC_AUTH_USER, BASIC_AUTH_PASS)
+			.delete(headerLocation)
+		.then()
+			.statusCode(STATUS_NO_CONTENT);
 	}
 	
 	private Book createBookSample() throws ParseException {
