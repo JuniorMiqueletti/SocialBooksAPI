@@ -3,7 +3,6 @@ package br.com.juniormiqueletti.socialbooks.controller;
 import br.com.juniormiqueletti.socialbooks.domain.Book;
 import br.com.juniormiqueletti.socialbooks.domain.Comment;
 import br.com.juniormiqueletti.socialbooks.service.BookService;
-import br.com.juniormiqueletti.socialbooks.services.exceptions.BookNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
@@ -33,7 +32,7 @@ public class BookController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity save(@Validated @RequestBody Book book){
+    public ResponseEntity<Void> save(@Validated @RequestBody Book book){
         bookService.save(book);
 
         URI uri = ServletUriComponentsBuilder
@@ -48,7 +47,7 @@ public class BookController {
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    public ResponseEntity find(@PathVariable("id") Long id){
+    public ResponseEntity<Book> find(@PathVariable("id") Long id){
         Book book = bookService.find(id);
 
         CacheControl cacheControl = CacheControl.maxAge(20, TimeUnit.SECONDS);
@@ -60,7 +59,7 @@ public class BookController {
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-    public ResponseEntity delete(@PathVariable("id") Long id){
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id){
 
         bookService.delete(id);
 
@@ -70,7 +69,7 @@ public class BookController {
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
-    public ResponseEntity update(@Validated @RequestBody Book book, @PathVariable("id") Long id){
+    public ResponseEntity<Void> update(@Validated @RequestBody Book book, @PathVariable("id") Long id){
         book.setId(id);
 
         bookService.update(book);
@@ -81,7 +80,7 @@ public class BookController {
     }
 
     @RequestMapping(value ="/{id}/comment", method = RequestMethod.POST )
-    public ResponseEntity addComment(@PathVariable("id") Long bookId,@Validated @RequestBody Comment comment){
+    public ResponseEntity<Void> addComment(@PathVariable("id") Long bookId,@Validated @RequestBody Comment comment){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 

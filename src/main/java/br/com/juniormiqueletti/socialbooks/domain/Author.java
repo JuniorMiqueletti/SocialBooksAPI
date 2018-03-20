@@ -21,7 +21,7 @@ public class Author {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonFormat(pattern = "dd/MM/yyyy")
-    private Date  bornDate;
+    private Date bornDate;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String nationality;
