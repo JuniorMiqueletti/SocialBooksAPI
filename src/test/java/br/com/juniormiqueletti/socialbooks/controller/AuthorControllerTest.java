@@ -1,11 +1,13 @@
 package br.com.juniormiqueletti.socialbooks.controller;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.text.ParseException;
 
+import org.hamcrest.Matcher;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.context.embedded.LocalServerPort;
@@ -21,6 +23,7 @@ public class AuthorControllerTest {
 	
 	private static final String AUTHOR_URL = "/author";
 	private static final int STATUS_CODE_UNAUTHORIZED = 401;
+	private static final int STATUS_NOT_FOUND = 404;
 	private static final int STATUS_CODE_OK = 200;
 	private static final int STATUS_CREATED = 201;
 	private static final String CONTENT_TYPE_HEADER = "Content-Type";
@@ -52,6 +55,19 @@ public class AuthorControllerTest {
 			.get(AUTHOR_URL)
 		.then()
 			.statusCode(STATUS_CODE_OK);
+	}
+	
+	@Test
+	public void getNotFoundExceptionHandlerTest() {
+		given()
+			.port(port)
+			.auth()
+				.basic(BASIC_AUTH_USER, BASIC_AUTH_PASS)
+			.get(AUTHOR_URL + "/333")
+		.then()
+			.statusCode(STATUS_NOT_FOUND)
+			.body("title", equalTo("The author has not been found!"))
+			.body("developerMessage", equalTo("http://error.socialbooks.com/404"));
 	}
 
 	@Test
