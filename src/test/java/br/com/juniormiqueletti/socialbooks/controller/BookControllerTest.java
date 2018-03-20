@@ -17,12 +17,15 @@ import br.com.juniormiqueletti.socialbooks.domain.Author;
 import br.com.juniormiqueletti.socialbooks.domain.Book;
 import io.restassured.response.Response;
 
+import static org.hamcrest.Matchers.equalTo;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class BookControllerTest {
 	
 	private static final String BOOK_URL = "/book";
 	private static final int STATUS_CODE_UNAUTHORIZED = 401;
+	private static final int STATUS_NOT_FOUND = 404;
 	private static final int STATUS_CODE_OK = 200;
 	private static final int STATUS_CREATED = 201;
 	private static final String CONTENT_TYPE_HEADER = "Content-Type";
@@ -56,6 +59,19 @@ public class BookControllerTest {
 			.statusCode(STATUS_CODE_OK);
 	}
 
+	@Test
+	public void getNotFoundExceptionHandlerTest() {
+		given()
+			.port(port)
+			.auth()
+				.basic(BASIC_AUTH_USER, BASIC_AUTH_PASS)
+			.get(BOOK_URL + "/333")
+		.then()
+			.statusCode(STATUS_NOT_FOUND)
+			.body("title", equalTo("The book has not been found!"))
+			.body("developerMessage", equalTo("http://error.socialbooks.com/404"));
+	}
+	
 	@Test
 	public void postAuthorTest() throws ParseException {
 		
