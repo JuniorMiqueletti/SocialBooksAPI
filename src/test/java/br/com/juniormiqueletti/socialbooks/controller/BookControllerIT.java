@@ -117,11 +117,11 @@ public class BookControllerIT {
 		assertTrue(headerLocation.matches(LOCATION_PATTERN));
 		
 		Response getResponse = 
-				given()
-					.port(port)
-					.auth()
-						.basic(BASIC_AUTH_USER, BASIC_AUTH_PASS)
-				.get(headerLocation)
+			given()
+				.port(port)
+				.auth()
+					.basic(BASIC_AUTH_USER, BASIC_AUTH_PASS)
+			.get(headerLocation)
 		.then()
 			.statusCode(STATUS_CODE_OK)
 		.extract()
@@ -157,7 +157,7 @@ public class BookControllerIT {
 					.auth()
 						.basic(BASIC_AUTH_USER, BASIC_AUTH_PASS)
 					.body(book)
-						.header(CONTENT_TYPE_HEADER, APPLICATION_JSON)
+					.header(CONTENT_TYPE_HEADER, APPLICATION_JSON)
 				.post(BOOK_URL)
 					.andReturn();
 		
@@ -189,5 +189,51 @@ public class BookControllerIT {
 		book.setPublishingCompany("Miqueletti Sa");
 		book.setSummary("Book with resume of my life");
 		return book;
+	}
+	
+	@Test
+	public void putBookSmokeTest() throws ParseException {
+		
+		Book book = createBookSample();
+		
+		Response response = 
+				given()
+					.port(port)
+					.auth()
+						.basic(BASIC_AUTH_USER, BASIC_AUTH_PASS)
+					.body(book)
+					.header(CONTENT_TYPE_HEADER, APPLICATION_JSON)
+				.post(BOOK_URL)
+					.andReturn();
+		
+		int statusCode = response.getStatusCode();
+		String headerLocation = response.getHeader(LOCATION_HEADER);
+		
+		assertEquals(statusCode, STATUS_CREATED);
+		assertTrue(headerLocation.matches(LOCATION_PATTERN));
+		
+		//changing book value
+		book.setName("Changed");
+		
+		given()
+			.port(port)
+			.auth()
+				.basic(BASIC_AUTH_USER, BASIC_AUTH_PASS)
+			.body(book)
+			.header(CONTENT_TYPE_HEADER, APPLICATION_JSON)
+		.put(headerLocation)
+		.then()
+			.statusCode(STATUS_NO_CONTENT);
+
+		//get with new value
+		given()
+			.port(port)
+			.auth()
+				.basic(BASIC_AUTH_USER, BASIC_AUTH_PASS)
+		.get(headerLocation)
+		.then()
+			.assertThat()
+			.statusCode(STATUS_CODE_OK)
+			.body("name", equalTo(book.getName()));
 	}
 }
