@@ -44,6 +44,7 @@ public class BookControllerIT {
 	public void getWithoutAuthenticationTest() {
 		given()
 			.port(port)
+		.when()
 			.get(BOOK_URL)
 		.then()
 			.statusCode(STATUS_CODE_UNAUTHORIZED);
@@ -55,6 +56,7 @@ public class BookControllerIT {
 			.port(port)
 			.auth()
 				.basic(BASIC_AUTH_USER, BASIC_AUTH_PASS)
+        .when()
 			.get(BOOK_URL)
 		.then()
 			.statusCode(STATUS_CODE_OK);
@@ -66,6 +68,7 @@ public class BookControllerIT {
 			.port(port)
 			.auth()
 				.basic(BASIC_AUTH_USER, BASIC_AUTH_PASS)
+		.when()
 			.get(BOOK_URL + "/333")
 		.then()
 			.statusCode(STATUS_NOT_FOUND)
@@ -79,14 +82,15 @@ public class BookControllerIT {
 		Book book = createBookSample();
 		
 		Response response = 
-				given()
-				  .port(port)
-				  .auth()
-				    .basic(BASIC_AUTH_USER, BASIC_AUTH_PASS)
-			      .body(book)
-			      .header(CONTENT_TYPE_HEADER, APPLICATION_JSON)
-			    .post(BOOK_URL)
-				    .andReturn();
+			given()
+				.port(port)
+				.auth()
+					.basic(BASIC_AUTH_USER, BASIC_AUTH_PASS)
+				.body(book)
+				.header(CONTENT_TYPE_HEADER, APPLICATION_JSON)
+			.when()
+				.post(BOOK_URL)
+			    .andReturn();
 
 		int statusCode = response.getStatusCode();
 		String headerLocation = response.getHeader(LOCATION_HEADER);
@@ -101,14 +105,15 @@ public class BookControllerIT {
 		Book book = createBookSample();
 		
 		Response response = 
-				given()
-					.port(port)
-					.auth()
-						.basic(BASIC_AUTH_USER, BASIC_AUTH_PASS)
-					.body(book)
-						.header(CONTENT_TYPE_HEADER, APPLICATION_JSON)
+			given()
+				.port(port)
+				.auth()
+					.basic(BASIC_AUTH_USER, BASIC_AUTH_PASS)
+				.body(book)
+					.header(CONTENT_TYPE_HEADER, APPLICATION_JSON)
+			.when()
 				.post(BOOK_URL)
-					.andReturn();
+				.andReturn();
 		
 		int statusCode = response.getStatusCode();
 		String headerLocation = response.getHeader(LOCATION_HEADER);
@@ -121,11 +126,12 @@ public class BookControllerIT {
 				.port(port)
 				.auth()
 					.basic(BASIC_AUTH_USER, BASIC_AUTH_PASS)
-			.get(headerLocation)
-		.then()
-			.statusCode(STATUS_CODE_OK)
-		.extract()
-		.response();
+			.when()
+				.get(headerLocation)
+			.then()
+				.statusCode(STATUS_CODE_OK)
+				.extract()
+					.response();
 		
 		Book bookResponse = getResponse.body().as(Book.class);
 		
@@ -139,6 +145,7 @@ public class BookControllerIT {
 			.port(port)
 			.auth()
 				.basic(BASIC_AUTH_USER, BASIC_AUTH_PASS)
+		.when()
 			.delete(BOOK_URL + "/333")
 		.then()
 			.statusCode(STATUS_NOT_FOUND)
@@ -152,14 +159,15 @@ public class BookControllerIT {
 		Book book = createBookSample();
 		
 		Response response = 
-				given()
-					.port(port)
-					.auth()
-						.basic(BASIC_AUTH_USER, BASIC_AUTH_PASS)
-					.body(book)
-					.header(CONTENT_TYPE_HEADER, APPLICATION_JSON)
+			given()
+				.port(port)
+				.auth()
+					.basic(BASIC_AUTH_USER, BASIC_AUTH_PASS)
+				.body(book)
+				.header(CONTENT_TYPE_HEADER, APPLICATION_JSON)
+			.when()
 				.post(BOOK_URL)
-					.andReturn();
+			.thenReturn();
 		
 		int statusCode = response.getStatusCode();
 		String headerLocation = response.getHeader(LOCATION_HEADER);
@@ -171,24 +179,10 @@ public class BookControllerIT {
 			.port(port)
 			.auth()
 				.basic(BASIC_AUTH_USER, BASIC_AUTH_PASS)
+		.when()
 			.delete(headerLocation)
 		.then()
 			.statusCode(STATUS_NO_CONTENT);
-	}
-	
-	private Book createBookSample() throws ParseException {
-		Author author = new Author();
-		author.setId(1L);
-		author.setName("Junior");
-		author.setNationality("Unknown");
-		
-		Book book = new Book();
-		book.setAuthor(author);
-		book.setName("Book of Life");
-		book.setPublication(new SimpleDateFormat("dd/mm/yyyy").parse("19/03/2018"));
-		book.setPublishingCompany("Miqueletti Sa");
-		book.setSummary("Book with resume of my life");
-		return book;
 	}
 	
 	@Test
@@ -197,14 +191,15 @@ public class BookControllerIT {
 		Book book = createBookSample();
 		
 		Response response = 
-				given()
-					.port(port)
-					.auth()
-						.basic(BASIC_AUTH_USER, BASIC_AUTH_PASS)
-					.body(book)
-					.header(CONTENT_TYPE_HEADER, APPLICATION_JSON)
+			given()
+				.port(port)
+				.auth()
+					.basic(BASIC_AUTH_USER, BASIC_AUTH_PASS)
+				.body(book)
+				.header(CONTENT_TYPE_HEADER, APPLICATION_JSON)
+			.when()
 				.post(BOOK_URL)
-					.andReturn();
+			.thenReturn();
 		
 		int statusCode = response.getStatusCode();
 		String headerLocation = response.getHeader(LOCATION_HEADER);
@@ -221,7 +216,8 @@ public class BookControllerIT {
 				.basic(BASIC_AUTH_USER, BASIC_AUTH_PASS)
 			.body(book)
 			.header(CONTENT_TYPE_HEADER, APPLICATION_JSON)
-		.put(headerLocation)
+		.when()
+			.put(headerLocation)
 		.then()
 			.statusCode(STATUS_NO_CONTENT);
 
@@ -230,10 +226,26 @@ public class BookControllerIT {
 			.port(port)
 			.auth()
 				.basic(BASIC_AUTH_USER, BASIC_AUTH_PASS)
-		.get(headerLocation)
+		.when()
+			.get(headerLocation)
 		.then()
 			.assertThat()
 			.statusCode(STATUS_CODE_OK)
 			.body("name", equalTo(book.getName()));
+	}
+	
+	private Book createBookSample() throws ParseException {
+		Author author = new Author();
+		author.setId(1L);
+		author.setName("Junior");
+		author.setNationality("Unknown");
+		
+		Book book = new Book();
+		book.setAuthor(author);
+		book.setName("Book of Life");
+		book.setPublication(new SimpleDateFormat("dd/mm/yyyy").parse("19/03/2018"));
+		book.setPublishingCompany("Miqueletti Sa");
+		book.setSummary("Book with resume of my life");
+		return book;
 	}
 }
