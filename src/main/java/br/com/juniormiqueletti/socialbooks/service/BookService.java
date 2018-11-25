@@ -11,53 +11,56 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookService {
 
-    @Autowired
     private BookRepository bookRepository;
+    private CommentRepository commentRepository;
 
     @Autowired
-    private CommentRepository commentRepository;
+    public BookService(
+        final BookRepository bookRepository,
+        final CommentRepository commentRepository
+    ) {
+        this.bookRepository = bookRepository;
+        this.commentRepository = commentRepository;
+    }
 
     public List<Book> list(){
         return bookRepository.findAll();
     }
 
-    public Book find(Long id){
-        Book book = bookRepository.findOne(id);
+    public Book find(final Long id){
+        Optional<Book> book = bookRepository.findById(id);
 
-        if(book == null){
-            throw new BookNotFoundException("Book not found!");
-        }
-        return book;
+        if (book.isPresent())
+            return book.get();
+
+        throw new BookNotFoundException("Book not found!");
     }
 
-    public Book save(Book book){
+    public Book save(final Book book){
         book.setId(null);
         return bookRepository.save(book);
     }
 
-    public void delete(Long id){
-        try
-        {
-            bookRepository.delete(id);
-        }catch (EmptyResultDataAccessException e){
+    public void delete(final Long id){
+        try {
+            bookRepository.deleteById(id);
+
+        } catch (EmptyResultDataAccessException e){
             throw new BookNotFoundException("Book not found!");
         }
     }
 
-    public void update(Book book){
+    public void update(final Book book){
         isValidBook(book);
         bookRepository.save(book);
     }
 
-    private void isValidBook(Book book){
-        this.find(book.getId());
-    }
-
-    public Comment saveComment(Long bookId, Comment comment){
+    public Comment saveComment(final Long bookId, Comment comment){
         Book book = find(bookId);
 
         comment.setBook(book);
@@ -66,9 +69,13 @@ public class BookService {
         return commentRepository.save(comment);
     }
 
-    public List<Comment> listComments(Long bookId) {
+    public List<Comment> listComments(final Long bookId) {
         Book book = find(bookId);
 
         return book.getComments();
+    }
+
+    private void isValidBook(final Book book){
+        this.find(book.getId());
     }
 }

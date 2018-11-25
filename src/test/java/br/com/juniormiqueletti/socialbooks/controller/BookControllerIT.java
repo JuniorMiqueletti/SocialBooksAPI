@@ -9,8 +9,8 @@ import java.text.SimpleDateFormat;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import br.com.juniormiqueletti.socialbooks.domain.Author;

@@ -8,34 +8,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AuthorService {
 
-    @Autowired
     private AuthorRepository authorRepository;
+
+    @Autowired
+    public AuthorService(final AuthorRepository authorRepository) {
+        this.authorRepository = authorRepository;
+    }
 
     public List<Author> list(){
         return authorRepository.findAll();
     }
 
-    public Author save(Author author){
+    public Author save(final Author author){
         if(author.getId() != null){
-            Author a = authorRepository.findOne(author.getId());
+            Optional<Author> authoSaved = authorRepository.findById(author.getId());
 
-            if(a != null){
+            if (authoSaved.isPresent())
                 throw new AuthorFoundException("The author has been exists!");
-            }
+
         }
         return authorRepository.save(author);
     }
 
-    public Author find(Long id){
-        Author author = authorRepository.findOne(id);
+    public Author find(final Long id){
+        Optional<Author> author = authorRepository.findById(id);
 
-        if(author == null){
-            throw new AuthorNotFoundException("The author has not been found!");
-        }
-        return author;
+        if (author.isPresent())
+            return author.get();
+
+        throw new AuthorNotFoundException("The author has not been found!");
     }
 }
