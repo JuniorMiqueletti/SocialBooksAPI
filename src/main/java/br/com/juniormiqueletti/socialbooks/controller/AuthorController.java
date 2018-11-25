@@ -14,7 +14,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/author")
+@RequestMapping(value = "/api/v1/author")
 public class AuthorController {
 
     @Autowired

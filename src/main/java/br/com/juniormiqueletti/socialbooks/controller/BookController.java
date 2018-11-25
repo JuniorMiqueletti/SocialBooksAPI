@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @RestController
-@RequestMapping(value = "/book")
+@RequestMapping(value = "/api/v1/book")
 public class BookController {
 
     @Autowired

@@ -23,7 +23,7 @@ import static org.hamcrest.Matchers.equalTo;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class BookControllerIT {
 	
-	private static final String BOOK_URL = "/book";
+	private static final String BOOK_URL = "/api/v1/book";
 	private static final int STATUS_CODE_UNAUTHORIZED = 401;
 	private static final int STATUS_NOT_FOUND = 404;
 	private static final int STATUS_CODE_OK = 200;

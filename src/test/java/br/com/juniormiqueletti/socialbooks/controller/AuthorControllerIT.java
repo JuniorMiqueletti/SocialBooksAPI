@@ -20,7 +20,7 @@ import io.restassured.response.Response;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class AuthorControllerIT {
 	
-	private static final String AUTHOR_URL = "/author";
+	private static final String AUTHOR_URL = "/api/v1/author";
 	private static final int STATUS_CODE_UNAUTHORIZED = 401;
 	private static final int STATUS_NOT_FOUND = 404;
 	private static final int STATUS_CODE_OK = 200;
