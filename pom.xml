@@ -7,7 +7,7 @@
     <groupId>br.com.juniormiqueletti</groupId>
     <artifactId>social-books-api</artifactId>
     <version>1.0.0</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>SocialBooksAPI</name>
     <description>Social API to manage books</description>
