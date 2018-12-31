@@ -28,7 +28,7 @@ public class AuthorControllerIT {
 	private static final String CONTENT_TYPE_HEADER = "Content-Type";
 	private static final String LOCATION_HEADER = "location";
 	private static final String APPLICATION_JSON = "application/json";
-	static final String LOCATION_PATTERN = ".*"+ AUTHOR_URL + "/[0-9]+";
+	static final String LOCATION_PATTERN = ".*"+ AUTHOR_URL + "/[a-zA-Z0-9]+";
 	
 	private static final String BASIC_AUTH_USER = "juniormiqueletti";
 	private static final String BASIC_AUTH_PASS = "p4ssw0rd";
@@ -89,7 +89,7 @@ public class AuthorControllerIT {
 		int statusCode = response.getStatusCode();
 		String headerLocation = response.getHeader(LOCATION_HEADER);
 
-		assertEquals(statusCode, STATUS_CREATED);
+		assertEquals(STATUS_CREATED, statusCode);
 		assertTrue(headerLocation.matches(LOCATION_PATTERN));
 	}
 	
@@ -113,7 +113,7 @@ public class AuthorControllerIT {
 		int statusCode = response.getStatusCode();
 		String headerLocation = response.getHeader(LOCATION_HEADER);
 		
-		assertEquals(statusCode, STATUS_CREATED);
+		assertEquals(STATUS_CREATED, statusCode);
 		assertTrue(headerLocation.matches(LOCATION_PATTERN));
 		
 		Response getResponse = 

@@ -6,7 +6,6 @@ import br.com.juniormiqueletti.socialbooks.repository.BookRepository;
 import br.com.juniormiqueletti.socialbooks.repository.CommentRepository;
 import br.com.juniormiqueletti.socialbooks.services.exceptions.BookNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -32,7 +31,7 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    public Book find(final Long id){
+    public Book find(final String id){
         Optional<Book> book = bookRepository.findById(id);
 
         if (book.isPresent())
@@ -46,13 +45,11 @@ public class BookService {
         return bookRepository.save(book);
     }
 
-    public void delete(final Long id){
-        try {
-            bookRepository.deleteById(id);
-
-        } catch (EmptyResultDataAccessException e){
+    public void delete(final String id){
+        if (!bookRepository.existsById(id))
             throw new BookNotFoundException("Book not found!");
-        }
+
+        bookRepository.deleteById(id);
     }
 
     public void update(final Book book){
@@ -60,7 +57,7 @@ public class BookService {
         bookRepository.save(book);
     }
 
-    public Comment saveComment(final Long bookId, Comment comment){
+    public Comment saveComment(final String bookId, Comment comment){
         Book book = find(bookId);
 
         comment.setBook(book);
@@ -69,7 +66,7 @@ public class BookService {
         return commentRepository.save(comment);
     }
 
-    public List<Comment> listComments(final Long bookId) {
+    public List<Comment> listComments(final String bookId) {
         Book book = find(bookId);
 
         return book.getComments();

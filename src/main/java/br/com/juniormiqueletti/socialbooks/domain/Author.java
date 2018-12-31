@@ -3,18 +3,19 @@ package br.com.juniormiqueletti.socialbooks.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 import java.util.List;
 
-@Entity
+@Document
 public class Author {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @NotEmpty(message = "The field name cannot be empty!")
     private String name;
@@ -26,15 +27,15 @@ public class Author {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String nationality;
 
-    @OneToMany(mappedBy = "author")
+    @DBRef
     @JsonIgnore
-    private List<Book> bookList;
+    private List<Book> books;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -62,11 +63,11 @@ public class Author {
         this.nationality = nationality;
     }
 
-    public List<Book> getBookList() {
-        return bookList;
+    public List<Book> getBooks() {
+        return books;
     }
 
-    public void setBookList(List<Book> bookList) {
-        this.bookList = bookList;
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 }

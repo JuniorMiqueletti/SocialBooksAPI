@@ -32,7 +32,7 @@ public class BookControllerIT {
 	private static final String CONTENT_TYPE_HEADER = "Content-Type";
 	private static final String LOCATION_HEADER = "location";
 	private static final String APPLICATION_JSON = "application/json";
-	static final String LOCATION_PATTERN = ".*"+ BOOK_URL + "/[0-9]+";
+	static final String LOCATION_PATTERN = ".*"+ BOOK_URL + "/[0-9a-zA-Z]+";
 	
 	private static final String BASIC_AUTH_USER = "juniormiqueletti";
 	private static final String BASIC_AUTH_PASS = "p4ssw0rd";
@@ -41,7 +41,7 @@ public class BookControllerIT {
     int port;
 
 	@Test
-	public void getWithoutAuthenticationTest() {
+	public void whenTryGetABookWithoutAuthentication_shouldReturnUnauthorized() {
 		given()
 			.port(port)
 		.when()
@@ -51,7 +51,7 @@ public class BookControllerIT {
 	}
 
 	@Test
-	public void getWithAuthenticationTest() {
+	public void whenTryFindABookWithAuthentication_shouldReturnOkStatus() {
 		given()
 			.port(port)
 			.auth()
@@ -63,7 +63,7 @@ public class BookControllerIT {
 	}
 
 	@Test
-	public void getNotFoundExceptionHandlerTest() {
+	public void whenFindANonExistentBook_shouldReturnStatusNotFoundWithBodyError() {
 		given()
 			.port(port)
 			.auth()
@@ -77,7 +77,7 @@ public class BookControllerIT {
 	}
 	
 	@Test
-	public void postAuthorTest() throws ParseException {
+	public void whenABookIsCreated_shouldReturnStatusOkAndHeaderLocation() throws ParseException {
 		
 		Book book = createBookSample();
 		
@@ -100,7 +100,7 @@ public class BookControllerIT {
 	}
 
 	@Test
-	public void postAuthorSmokeTest() throws ParseException {
+	public void whenABookCreated_shouldBePossibleFind() throws ParseException {
 		
 		Book book = createBookSample();
 		
@@ -118,7 +118,7 @@ public class BookControllerIT {
 		int statusCode = response.getStatusCode();
 		String headerLocation = response.getHeader(LOCATION_HEADER);
 		
-		assertEquals(statusCode, STATUS_CREATED);
+		assertEquals(STATUS_CREATED, statusCode);
 		assertTrue(headerLocation.matches(LOCATION_PATTERN));
 		
 		Response getResponse = 
@@ -140,13 +140,13 @@ public class BookControllerIT {
 	}
 	
 	@Test
-	public void deleteNotFoundExceptionHandlerTest() {
+	public void whenTryDeleteANonExistentBook_shouldReturnNotFound() {
 		given()
 			.port(port)
 			.auth()
 				.basic(BASIC_AUTH_USER, BASIC_AUTH_PASS)
 		.when()
-			.delete(BOOK_URL + "/333")
+			.delete(BOOK_URL + "/aaa333")
 		.then()
 			.statusCode(STATUS_NOT_FOUND)
 			.body("title", equalTo("The book has not been found!"))
@@ -154,7 +154,7 @@ public class BookControllerIT {
 	}
 	
 	@Test
-	public void deleteTest() throws ParseException {
+	public void givenABookCreatedThen_shouldDeleteHimWithSuccess() throws ParseException {
 		
 		Book book = createBookSample();
 		
@@ -172,7 +172,7 @@ public class BookControllerIT {
 		int statusCode = response.getStatusCode();
 		String headerLocation = response.getHeader(LOCATION_HEADER);
 		
-		assertEquals(statusCode, STATUS_CREATED);
+		assertEquals(STATUS_CREATED, statusCode);
 		assertTrue(headerLocation.matches(LOCATION_PATTERN));
 		
 		given()
@@ -204,24 +204,22 @@ public class BookControllerIT {
 		int statusCode = response.getStatusCode();
 		String headerLocation = response.getHeader(LOCATION_HEADER);
 		
-		assertEquals(statusCode, STATUS_CREATED);
+		assertEquals(STATUS_CREATED, statusCode);
 		assertTrue(headerLocation.matches(LOCATION_PATTERN));
 		
-		//changing book value
 		book.setName("Changed");
 		
 		given()
 			.port(port)
 			.auth()
 				.basic(BASIC_AUTH_USER, BASIC_AUTH_PASS)
-			.body(book)
 			.header(CONTENT_TYPE_HEADER, APPLICATION_JSON)
+			.body(book)
 		.when()
 			.put(headerLocation)
 		.then()
 			.statusCode(STATUS_NO_CONTENT);
 
-		//get with new value
 		given()
 			.port(port)
 			.auth()
@@ -236,7 +234,7 @@ public class BookControllerIT {
 	
 	private Book createBookSample() throws ParseException {
 		Author author = new Author();
-		author.setId(1L);
+		author.setId("a1A1b2B2c3C3");
 		author.setName("Junior");
 		author.setNationality("Unknown");
 		

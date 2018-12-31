@@ -24,14 +24,14 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public ResponseEntity<List<Book>> list(){
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(bookService.list());
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public ResponseEntity<Void> save(@Validated @RequestBody Book book){
         bookService.save(book);
 
@@ -46,8 +46,8 @@ public class BookController {
                     .build();
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    public ResponseEntity<Book> find(@PathVariable("id") Long id){
+    @GetMapping("/{id}")
+    public ResponseEntity<Book> find(@PathVariable("id") String id){
         Book book = bookService.find(id);
 
         CacheControl cacheControl = CacheControl.maxAge(20, TimeUnit.SECONDS);
@@ -58,18 +58,18 @@ public class BookController {
                     .body(book);
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> delete(@PathVariable("id") Long id){
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") String id){
         bookService.delete(id);
 
-        return ResponseEntity
-                .noContent()
-                    .build();
+        return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.PUT)
-    public ResponseEntity<Void> update(@Validated @RequestBody Book book, @PathVariable("id") Long id){
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> update(
+        @Validated @RequestBody Book book,
+        @PathVariable("id") String id
+    ){
         book.setId(id);
 
         bookService.update(book);
@@ -79,8 +79,11 @@ public class BookController {
                     .build();
     }
 
-    @RequestMapping(value ="/{id}/comment", method = RequestMethod.POST )
-    public ResponseEntity<Void> addComment(@PathVariable("id") Long bookId,@Validated @RequestBody Comment comment){
+    @PostMapping("/{id}/comment")
+    public ResponseEntity<Void> addComment(
+            @PathVariable("id") String bookId,
+            @Validated @RequestBody Comment comment
+    ){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -97,8 +100,8 @@ public class BookController {
                 .build();
     }
 
-    @RequestMapping(value = "/{id}/comment", method = RequestMethod.GET)
-    public ResponseEntity<List<Comment>> listComments(@PathVariable("id") Long bookId){
+    @GetMapping("/{id}/comment")
+    public ResponseEntity<List<Comment>> listComments(@PathVariable("id") String bookId){
         List<Comment> comments = bookService.listComments(bookId);
 
         return ResponseEntity

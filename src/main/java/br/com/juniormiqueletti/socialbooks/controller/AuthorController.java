@@ -20,7 +20,7 @@ public class AuthorController {
     @Autowired
     private AuthorService authorService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public ResponseEntity<List<Author>> list(){
 
         return ResponseEntity
@@ -28,7 +28,7 @@ public class AuthorController {
                 .body(authorService.list());
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public ResponseEntity<Void> save(@Validated @RequestBody Author author){
         author = authorService.save(author);
 
@@ -43,8 +43,8 @@ public class AuthorController {
                 .build();
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.GET)
-    public ResponseEntity<Author> find(@PathVariable("id")Long id){
+    @GetMapping("/{id}")
+    public ResponseEntity<Author> find(@PathVariable("id") String id){
 
         Author author = authorService.find(id);
 

@@ -3,21 +3,22 @@ package br.com.juniormiqueletti.socialbooks.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
-@Entity
+@Document
 public class Book {
 
     @JsonInclude(Include.NON_NULL)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private String id;
 
     @NotEmpty(message = "The field name cannot be empty!")
     private String name;
@@ -36,27 +37,26 @@ public class Book {
     @Size(message = "The summary cannot greater than 1500 characters", max = 1500)
     private String summary;
 
-    @ManyToOne
-    @JoinColumn(name = "author_id")
     @JsonInclude(Include.NON_NULL)
     private Author author;
 
+    @DBRef
     @JsonInclude(Include.NON_EMPTY)
-    @OneToMany(mappedBy = "book")
     private List<Comment> comments;
 
-    public Book(){}
+    public Book() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public Book(String name) {
         this.name = name;
-    }
-
-    public Long getId() {
-        return Id;
-    }
-
-    public void setId(Long id) {
-        Id = id;
     }
 
     public String getName() {

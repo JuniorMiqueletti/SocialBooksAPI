@@ -35,7 +35,7 @@ public class AuthorService {
         return authorRepository.save(author);
     }
 
-    public Author find(final Long id){
+    public Author find(final String id){
         Optional<Author> author = authorRepository.findById(id);
 
         if (author.isPresent())
