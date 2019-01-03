@@ -1,8 +1,5 @@
-package br.com.juniormiqueletti.socialbooks.domain;
+package br.com.juniormiqueletti.socialbooks.domain.document;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -20,15 +17,11 @@ public class Author {
     @NotEmpty(message = "The field name cannot be empty!")
     private String name;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date bornDate;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String nationality;
 
     @DBRef
-    @JsonIgnore
     private List<Book> books;
 
     public String getId() {

@@ -1,4 +1,4 @@
-package br.com.juniormiqueletti.socialbooks.domain;
+package br.com.juniormiqueletti.socialbooks.domain.dto;
 
 public class ErrorDetail {
     private String title;

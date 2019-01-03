@@ -1,10 +1,10 @@
 package br.com.juniormiqueletti.socialbooks.service;
 
-import br.com.juniormiqueletti.socialbooks.domain.Book;
-import br.com.juniormiqueletti.socialbooks.domain.Comment;
+import br.com.juniormiqueletti.socialbooks.domain.document.Book;
+import br.com.juniormiqueletti.socialbooks.domain.document.Comment;
 import br.com.juniormiqueletti.socialbooks.repository.BookRepository;
 import br.com.juniormiqueletti.socialbooks.repository.CommentRepository;
-import br.com.juniormiqueletti.socialbooks.services.exceptions.BookNotFoundException;
+import br.com.juniormiqueletti.socialbooks.service.exception.BookNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

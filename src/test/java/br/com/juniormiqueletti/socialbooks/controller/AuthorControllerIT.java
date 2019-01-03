@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import br.com.juniormiqueletti.socialbooks.domain.Author;
+import br.com.juniormiqueletti.socialbooks.domain.dto.AuthorDTO;
 import io.restassured.response.Response;
 
 @RunWith(SpringRunner.class)
@@ -72,7 +72,7 @@ public class AuthorControllerIT {
 	@Test
 	public void postAuthorTest() throws ParseException {
 		
-		Author author = new Author();
+		AuthorDTO author = new AuthorDTO();
 		author.setName("Junior");
 		author.setNationality("Unknown");
 		
@@ -95,8 +95,8 @@ public class AuthorControllerIT {
 	
 	@Test
 	public void postAuthorSmokeTest() throws ParseException {
-		
-		Author author = new Author();
+
+		AuthorDTO author = new AuthorDTO();
 		author.setName("Junior");
 		author.setNationality("Unknown");
 		
@@ -126,8 +126,8 @@ public class AuthorControllerIT {
 			.statusCode(STATUS_CODE_OK)
 		.extract()
 		.response();
-		
-		Author authorResponse = getResponse.body().as(Author.class);
+
+		AuthorDTO authorResponse = getResponse.body().as(AuthorDTO.class);
 		
 		assertEquals(author.getName(), authorResponse.getName());
 		assertEquals(author.getNationality(), authorResponse.getNationality());

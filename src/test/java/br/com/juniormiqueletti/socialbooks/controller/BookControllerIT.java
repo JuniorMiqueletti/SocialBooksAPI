@@ -13,8 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import br.com.juniormiqueletti.socialbooks.domain.Author;
-import br.com.juniormiqueletti.socialbooks.domain.Book;
+import br.com.juniormiqueletti.socialbooks.domain.document.Author;
+import br.com.juniormiqueletti.socialbooks.domain.document.Book;
 import io.restassured.response.Response;
 
 import static org.hamcrest.Matchers.equalTo;

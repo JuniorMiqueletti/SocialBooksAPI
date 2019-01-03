@@ -1,4 +1,4 @@
-package br.com.juniormiqueletti.socialbooks.domain;
+package br.com.juniormiqueletti.socialbooks.domain.document;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;

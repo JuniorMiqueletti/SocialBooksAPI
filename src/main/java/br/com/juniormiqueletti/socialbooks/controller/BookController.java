@@ -1,7 +1,7 @@
 package br.com.juniormiqueletti.socialbooks.controller;
 
-import br.com.juniormiqueletti.socialbooks.domain.Book;
-import br.com.juniormiqueletti.socialbooks.domain.Comment;
+import br.com.juniormiqueletti.socialbooks.domain.document.Book;
+import br.com.juniormiqueletti.socialbooks.domain.document.Comment;
 import br.com.juniormiqueletti.socialbooks.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.CacheControl;

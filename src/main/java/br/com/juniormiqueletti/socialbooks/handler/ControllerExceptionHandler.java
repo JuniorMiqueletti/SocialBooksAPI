@@ -1,9 +1,9 @@
 package br.com.juniormiqueletti.socialbooks.handler;
 
-import br.com.juniormiqueletti.socialbooks.domain.ErrorDetail;
-import br.com.juniormiqueletti.socialbooks.services.exceptions.AuthorFoundException;
-import br.com.juniormiqueletti.socialbooks.services.exceptions.AuthorNotFoundException;
-import br.com.juniormiqueletti.socialbooks.services.exceptions.BookNotFoundException;
+import br.com.juniormiqueletti.socialbooks.domain.dto.ErrorDetail;
+import br.com.juniormiqueletti.socialbooks.service.exception.AuthorFoundException;
+import br.com.juniormiqueletti.socialbooks.service.exception.AuthorNotFoundException;
+import br.com.juniormiqueletti.socialbooks.service.exception.BookNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

@@ -1,4 +1,4 @@
-package br.com.juniormiqueletti.socialbooks.services.exceptions;
+package br.com.juniormiqueletti.socialbooks.service.exception;
 
 public class BookNotFoundException extends RuntimeException{
 

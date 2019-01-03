@@ -1,6 +1,6 @@
 package br.com.juniormiqueletti.socialbooks.repository;
 
-import br.com.juniormiqueletti.socialbooks.domain.Book;
+import br.com.juniormiqueletti.socialbooks.domain.document.Book;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;
