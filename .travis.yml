@@ -7,5 +7,5 @@ cache:
   directories:
     - '$HOME/.m2/repository'
 
-before_script:
+before install:
   - ./bin/docker-run-mongodb-sh
