@@ -1,38 +1,43 @@
-package br.com.juniormiqueletti.socialbooks.domain.document;
+package br.com.juniormiqueletti.socialbooks.domain.dto;
 
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
+import br.com.juniormiqueletti.socialbooks.domain.document.Author;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
-@Document
-public class Book {
+public class BookDTO {
 
-    @Id
+    @JsonInclude(Include.NON_NULL)
     private String id;
 
     @NotEmpty(message = "The field name cannot be empty!")
     private String name;
 
+    @JsonInclude(Include.NON_NULL)
+    @JsonFormat(pattern = "dd/MM/yyyy")
     @NotNull(message = "The field publication cannot be empty!")
     private Date publication;
 
+    @JsonInclude(Include.NON_NULL)
     @NotEmpty(message = "The field publishingCompany cannot be empty!")
     private String publishingCompany;
 
+    @JsonInclude(Include.NON_NULL)
     @NotEmpty(message = "The field summary cannot be empty!")
     @Size(message = "The summary cannot greater than 1500 characters", max = 1500)
     private String summary;
 
-    private Author author;
+    @JsonInclude(Include.NON_NULL)
+    private AuthorDTO author;
 
-    @DBRef
-    private List<Comment> comments;
+    @JsonInclude(Include.NON_EMPTY)
+    private List<CommentDTO> comments;
 
     public String getId() {
         return id;
@@ -74,19 +79,19 @@ public class Book {
         this.summary = summary;
     }
 
-    public Author getAuthor() {
+    public AuthorDTO getAuthor() {
         return author;
     }
 
-    public void setAuthor(Author author) {
+    public void setAuthor(AuthorDTO author) {
         this.author = author;
     }
 
-    public List<Comment> getComments() {
+    public List<CommentDTO> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(List<CommentDTO> comments) {
         this.comments = comments;
     }
 }

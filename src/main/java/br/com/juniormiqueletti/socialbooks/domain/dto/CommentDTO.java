@@ -1,30 +1,32 @@
-package br.com.juniormiqueletti.socialbooks.domain.document;
+package br.com.juniormiqueletti.socialbooks.domain.dto;
 
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
-@Document
-public class Comment {
+public class CommentDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @NotEmpty(message = "The field comment cannot be empty!")
     @Size(message = "The comment cannot greater than 1500 characters", max = 1500)
+    @JsonProperty("comment")
     private String text;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String user;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date date;
 
-    @DBRef
-    private Book book;
+    @JsonIgnore
+    private BookDTO book;
 
     public String getId() {
         return id;
@@ -58,11 +60,11 @@ public class Comment {
         this.date = date;
     }
 
-    public Book getBook() {
+    public BookDTO getBook() {
         return book;
     }
 
-    public void setBook(Book book) {
+    public void setBook(BookDTO book) {
         this.book = book;
     }
 }

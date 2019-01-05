@@ -60,7 +60,6 @@ public class AuthorController {
                 .body(toDTO(author));
     }
 
-
     private AuthorDTO toDTO(final Author author) {
         AuthorDTO authorDTO = new AuthorDTO();
         BeanUtils.copyProperties(author, authorDTO);

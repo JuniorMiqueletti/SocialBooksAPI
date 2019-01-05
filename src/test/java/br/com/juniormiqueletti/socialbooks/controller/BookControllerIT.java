@@ -7,14 +7,14 @@ import static org.junit.Assert.assertTrue;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import br.com.juniormiqueletti.socialbooks.domain.dto.AuthorDTO;
+import br.com.juniormiqueletti.socialbooks.domain.dto.BookDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import br.com.juniormiqueletti.socialbooks.domain.document.Author;
-import br.com.juniormiqueletti.socialbooks.domain.document.Book;
 import io.restassured.response.Response;
 
 import static org.hamcrest.Matchers.equalTo;
@@ -79,7 +79,7 @@ public class BookControllerIT {
 	@Test
 	public void whenABookIsCreated_shouldReturnStatusOkAndHeaderLocation() throws ParseException {
 		
-		Book book = createBookSample();
+		BookDTO book = createBookSample();
 		
 		Response response = 
 			given()
@@ -102,7 +102,7 @@ public class BookControllerIT {
 	@Test
 	public void whenABookCreated_shouldBePossibleFind() throws ParseException {
 		
-		Book book = createBookSample();
+		BookDTO book = createBookSample();
 		
 		Response response = 
 			given()
@@ -133,7 +133,7 @@ public class BookControllerIT {
 				.extract()
 					.response();
 		
-		Book bookResponse = getResponse.body().as(Book.class);
+		BookDTO bookResponse = getResponse.body().as(BookDTO.class);
 		
 		assertEquals(book.getName(), bookResponse.getName());
 		assertEquals(book.getPublishingCompany(), bookResponse.getPublishingCompany());
@@ -156,7 +156,7 @@ public class BookControllerIT {
 	@Test
 	public void givenABookCreatedThen_shouldDeleteHimWithSuccess() throws ParseException {
 		
-		Book book = createBookSample();
+		BookDTO book = createBookSample();
 		
 		Response response = 
 			given()
@@ -188,7 +188,7 @@ public class BookControllerIT {
 	@Test
 	public void putBookSmokeTest() throws ParseException {
 		
-		Book book = createBookSample();
+		BookDTO book = createBookSample();
 		
 		Response response = 
 			given()
@@ -232,13 +232,13 @@ public class BookControllerIT {
 			.body("name", equalTo(book.getName()));
 	}
 	
-	private Book createBookSample() throws ParseException {
-		Author author = new Author();
+	private BookDTO createBookSample() throws ParseException {
+		AuthorDTO author = new AuthorDTO();
 		author.setId("a1A1b2B2c3C3");
 		author.setName("Junior");
 		author.setNationality("Unknown");
 		
-		Book book = new Book();
+		BookDTO book = new BookDTO();
 		book.setAuthor(author);
 		book.setName("Book of Life");
 		book.setPublication(new SimpleDateFormat("dd/mm/yyyy").parse("19/03/2018"));
