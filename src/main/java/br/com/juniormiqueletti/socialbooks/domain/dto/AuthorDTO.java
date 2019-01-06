@@ -9,9 +9,7 @@ import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 import java.util.List;
 
-public class AuthorDTO {
-
-    private String id;
+public class AuthorDTO extends DTO {
 
     @NotEmpty(message = "The field name cannot be empty!")
     private String name;
@@ -25,14 +23,6 @@ public class AuthorDTO {
 
     @JsonIgnore
     private List<Book> books;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

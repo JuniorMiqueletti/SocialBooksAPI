@@ -1,6 +1,5 @@
 package br.com.juniormiqueletti.socialbooks.domain.dto;
 
-import br.com.juniormiqueletti.socialbooks.domain.document.Author;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -11,10 +10,7 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
-public class BookDTO {
-
-    @JsonInclude(Include.NON_NULL)
-    private String id;
+public class BookDTO extends DTO {
 
     @NotEmpty(message = "The field name cannot be empty!")
     private String name;
@@ -38,14 +34,6 @@ public class BookDTO {
 
     @JsonInclude(Include.NON_EMPTY)
     private List<CommentDTO> comments;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

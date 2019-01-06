@@ -9,9 +9,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
-public class CommentDTO {
-
-    private String id;
+public class CommentDTO extends DTO {
 
     @NotEmpty(message = "The field comment cannot be empty!")
     @Size(message = "The comment cannot greater than 1500 characters", max = 1500)
@@ -27,14 +25,6 @@ public class CommentDTO {
 
     @JsonIgnore
     private BookDTO book;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getText() {
         return text;
