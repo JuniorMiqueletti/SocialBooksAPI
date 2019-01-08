@@ -40,6 +40,10 @@ public class BookService {
         throw new BookNotFoundException("Book not found!");
     }
 
+    public List<Book> findByNameLike(final String name) {
+        return bookRepository.findByNameLikeIgnoreCase(name);
+    }
+
     public Book save(final Book book){
         book.setId(null);
         return bookRepository.save(book);

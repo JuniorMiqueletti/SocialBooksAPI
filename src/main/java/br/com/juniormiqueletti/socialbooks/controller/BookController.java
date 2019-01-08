@@ -120,6 +120,19 @@ public class BookController {
                 .body(comments);
     }
 
+    @GetMapping("/{name}/like")
+    public ResponseEntity<List<BookDTO>> findBookByLikeName(@PathVariable String name){
+
+        List<BookDTO> books =
+            bookService.findByNameLike(name).parallelStream()
+                .map(this::toDTO)
+                .collect(toList());
+
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(books);
+    }
+
     private BookDTO toDTO(final Book book) {
         BookDTO bookDTO = new BookDTO();
         BeanUtils.copyProperties(book, bookDTO);
