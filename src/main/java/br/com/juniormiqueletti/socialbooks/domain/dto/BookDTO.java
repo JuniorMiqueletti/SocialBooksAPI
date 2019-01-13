@@ -35,6 +35,8 @@ public class BookDTO extends DTO {
     @JsonInclude(Include.NON_EMPTY)
     private List<CommentDTO> comments;
 
+    private Float score;
+
     public String getName() {
         return name;
     }
@@ -81,5 +83,13 @@ public class BookDTO extends DTO {
 
     public void setComments(List<CommentDTO> comments) {
         this.comments = comments;
+    }
+
+    public Float getScore() {
+        return score;
+    }
+
+    public void setScore(Float score) {
+        this.score = score;
     }
 }

@@ -6,11 +6,17 @@ import br.com.juniormiqueletti.socialbooks.repository.BookRepository;
 import br.com.juniormiqueletti.socialbooks.repository.CommentRepository;
 import br.com.juniormiqueletti.socialbooks.service.exception.BookNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.query.TextCriteria;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.data.domain.Sort.Direction.ASC;
 
 @Service
 public class BookService {
@@ -71,9 +77,12 @@ public class BookService {
     }
 
     public List<Comment> listComments(final String bookId) {
-        Book book = find(bookId);
+        return find(bookId).getComments();
+    }
 
-        return book.getComments();
+    public List<Book> findByFullTextSearch(final String text, final Pageable pageable) {
+        TextCriteria textCriteria = TextCriteria.forDefaultLanguage().matchingAny(text);
+        return bookRepository.findAllBy(textCriteria, pageable);
     }
 
     private void isValidBook(final Book book){

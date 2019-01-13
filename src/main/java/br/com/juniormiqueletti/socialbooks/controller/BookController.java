@@ -7,6 +7,9 @@ import br.com.juniormiqueletti.socialbooks.domain.dto.CommentDTO;
 import br.com.juniormiqueletti.socialbooks.service.BookService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,8 +39,8 @@ public class BookController {
             .collect(toList());
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(books);
+            .status(HttpStatus.OK)
+            .body(books);
     }
 
     @PostMapping
@@ -46,9 +49,9 @@ public class BookController {
 
         URI uri = ServletUriComponentsBuilder
             .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(savedBook.getId())
-                    .toUri();
+            .path("/{id}")
+            .buildAndExpand(savedBook.getId())
+                .toUri();
 
         return ResponseEntity
             .created(uri)
@@ -62,9 +65,9 @@ public class BookController {
         CacheControl cacheControl = CacheControl.maxAge(20, TimeUnit.SECONDS);
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .cacheControl(cacheControl)
-                    .body(toDTO(book));
+            .status(HttpStatus.OK)
+            .cacheControl(cacheControl)
+            .body(toDTO(book));
     }
 
     @DeleteMapping("/{id}")
@@ -84,8 +87,8 @@ public class BookController {
         bookService.update(toEntity(bookDTO));
 
         return ResponseEntity
-                .noContent()
-                    .build();
+            .noContent()
+            .build();
     }
 
     @PostMapping("/{id}/comment")
@@ -104,8 +107,8 @@ public class BookController {
                 .build().toUri();
 
         return ResponseEntity
-                .created(uri)
-                .build();
+            .created(uri)
+            .build();
     }
 
     @GetMapping("/{id}/comment")
@@ -116,8 +119,8 @@ public class BookController {
                 .collect(toList());
 
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(comments);
+            .status(HttpStatus.OK)
+            .body(comments);
     }
 
     @GetMapping("/{name}/like")
@@ -131,6 +134,21 @@ public class BookController {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(books);
+    }
+
+    @GetMapping("/{text}/full-text-search")
+    public ResponseEntity<List<BookDTO>> findBookByFullText(@PathVariable String text){
+
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("score"));
+
+        List<BookDTO> books =
+            bookService.findByFullTextSearch(text, pageable).stream()
+                .map(this::toDTO)
+                .collect(toList());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(books);
     }
 
     private BookDTO toDTO(final Book book) {

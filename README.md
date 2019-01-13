@@ -13,8 +13,5 @@
 
 All scripts/sh are into bin directory.
 
-`
-./bin/docker-run-mongodb.sh
-./bin/docker-run-mongodb-express.sh
-
-`
+    ./bin/docker-run-mongodb.sh
+    ./bin/docker-run-mongodb-express.sh

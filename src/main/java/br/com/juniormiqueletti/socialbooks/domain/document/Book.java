@@ -1,6 +1,8 @@
 package br.com.juniormiqueletti.socialbooks.domain.document;
 
+import org.springframework.data.mongodb.core.index.TextIndexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.mongodb.core.mapping.TextScore;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -11,22 +13,28 @@ import java.util.List;
 public class Book extends GenericDocument {
 
     @NotEmpty(message = "The field name cannot be empty!")
+    @TextIndexed
     private String name;
 
     @NotNull(message = "The field publication cannot be empty!")
     private Date publication;
 
     @NotEmpty(message = "The field publishingCompany cannot be empty!")
+    @TextIndexed
     private String publishingCompany;
 
     @NotEmpty(message = "The field summary cannot be empty!")
     @Size(message = "The summary cannot greater than 1500 characters", max = 1500)
+    @TextIndexed
     private String summary;
 
     private Author author;
 
     @DBRef
     private List<Comment> comments;
+
+    @TextScore
+    private Float score;
 
     public String getName() {
         return name;
@@ -74,5 +82,13 @@ public class Book extends GenericDocument {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public Float getScore() {
+        return score;
+    }
+
+    public void setScore(Float score) {
+        this.score = score;
     }
 }
